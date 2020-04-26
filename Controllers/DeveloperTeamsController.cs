@@ -9,50 +9,50 @@ using LicenseProject.Models;
 
 namespace LicenseProject.Controllers
 {
-    [Route("api/soft")]
+    [Route("api/developerteam")]
     [ApiController]
-    public class SoftsController : ControllerBase
+    public class DeveloperTeamsController : ControllerBase
     {
         private readonly Context _context;
 
-        public SoftsController(Context context)
+        public DeveloperTeamsController(Context context)
         {
             _context = context;
         }
 
-        // GET: api/Softs
+        // GET: api/DeveloperTeams
         [HttpGet]
-        public async task<actionresult<ienumerable<soft>>> getsofts()
+        public async Task<ActionResult<IEnumerable<DeveloperTeam>>> GetDeveloperTeam()
         {
-            return await _context.softs.tolistasync();
+            return await _context.DeveloperTeam.ToListAsync();
         }
 
-        // GET: api/Softs/5
+        // GET: api/DeveloperTeams/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Soft>> GetSoft(int id)
+        public async Task<ActionResult<DeveloperTeam>> GetDeveloperTeam(int id)
         {
-            var soft = await _context.Softs.FindAsync(id);
+            var developerTeam = await _context.DeveloperTeam.FindAsync(id);
 
-            if (soft == null)
+            if (developerTeam == null)
             {
                 return NotFound();
             }
 
-            return soft;
+            return developerTeam;
         }
 
-        // PUT: api/Softs/5
+        // PUT: api/DeveloperTeams/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSoft(int id, Soft soft)
+        public async Task<IActionResult> PutDeveloperTeam(int id, DeveloperTeam developerTeam)
         {
-            if (id != soft.ID)
+            if (id != developerTeam.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(soft).State = EntityState.Modified;
+            _context.Entry(developerTeam).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace LicenseProject.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SoftExists(id))
+                if (!DeveloperTeamExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,37 @@ namespace LicenseProject.Controllers
             return NoContent();
         }
 
-        // POST: api/Softs
+        // POST: api/DeveloperTeams
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Soft>> PostSoft(Soft soft)
+        public async Task<ActionResult<DeveloperTeam>> PostDeveloperTeam(DeveloperTeam developerTeam)
         {
-            _context.Softs.Add(soft);
+            _context.DeveloperTeam.Add(developerTeam);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSoft", new { id = soft.ID }, soft);
+            return CreatedAtAction("GetDeveloperTeam", new { id = developerTeam.ID }, developerTeam);
         }
 
-        // DELETE: api/Softs/5
+        // DELETE: api/DeveloperTeams/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Soft>> DeleteSoft(int id)
+        public async Task<ActionResult<DeveloperTeam>> DeleteDeveloperTeam(int id)
         {
-            var soft = await _context.Softs.FindAsync(id);
-            if (soft == null)
+            var developerTeam = await _context.DeveloperTeam.FindAsync(id);
+            if (developerTeam == null)
             {
                 return NotFound();
             }
 
-            _context.Softs.Remove(soft);
+            _context.DeveloperTeam.Remove(developerTeam);
             await _context.SaveChangesAsync();
 
-            return soft;
+            return developerTeam;
         }
 
-        private bool SoftExists(int id)
+        private bool DeveloperTeamExists(int id)
         {
-            return _context.Softs.Any(e => e.ID == id);
+            return _context.DeveloperTeam.Any(e => e.ID == id);
         }
     }
 }

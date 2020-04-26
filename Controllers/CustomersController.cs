@@ -9,50 +9,50 @@ using LicenseProject.Models;
 
 namespace LicenseProject.Controllers
 {
-    [Route("api/soft")]
+    [Route("api/customer")]
     [ApiController]
-    public class SoftsController : ControllerBase
+    public class CustomersController : ControllerBase
     {
         private readonly Context _context;
 
-        public SoftsController(Context context)
+        public CustomersController(Context context)
         {
             _context = context;
         }
 
-        // GET: api/Softs
+        // GET: api/Customers
         [HttpGet]
-        public async task<actionresult<ienumerable<soft>>> getsofts()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.softs.tolistasync();
+            return await _context.Customers.ToListAsync();
         }
 
-        // GET: api/Softs/5
+        // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Soft>> GetSoft(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var soft = await _context.Softs.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
 
-            if (soft == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return soft;
+            return customer;
         }
 
-        // PUT: api/Softs/5
+        // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSoft(int id, Soft soft)
+        public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != soft.ID)
+            if (id != customer.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(soft).State = EntityState.Modified;
+            _context.Entry(customer).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace LicenseProject.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SoftExists(id))
+                if (!CustomerExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,37 @@ namespace LicenseProject.Controllers
             return NoContent();
         }
 
-        // POST: api/Softs
+        // POST: api/Customers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Soft>> PostSoft(Soft soft)
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.Softs.Add(soft);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSoft", new { id = soft.ID }, soft);
+            return CreatedAtAction("GetCustomer", new { id = customer.ID }, customer);
         }
 
-        // DELETE: api/Softs/5
+        // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Soft>> DeleteSoft(int id)
+        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
-            var soft = await _context.Softs.FindAsync(id);
-            if (soft == null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            _context.Softs.Remove(soft);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
-            return soft;
+            return customer;
         }
 
-        private bool SoftExists(int id)
+        private bool CustomerExists(int id)
         {
-            return _context.Softs.Any(e => e.ID == id);
+            return _context.Customers.Any(e => e.ID == id);
         }
     }
 }
