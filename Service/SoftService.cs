@@ -1,12 +1,13 @@
 ﻿using LicenseProject.Models;
+using LicenseProject.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LicenseProject.Service
+namespace LicenseProject.IServiceProviderFactory
 {
-    public class SoftService
+    public class SoftService:IService<Soft>
     {
 
         public Repository<Soft> RepositoryDB { get; set; }

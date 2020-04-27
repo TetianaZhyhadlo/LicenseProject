@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LicenseProject.Models
 {
-    public class DeveloperTeam
+    public class DeveloperTeam:IModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
