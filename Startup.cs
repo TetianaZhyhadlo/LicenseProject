@@ -25,7 +25,7 @@ namespace LicenseProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Context>(opt =>
-               opt.UseInMemoryDatabase("LicenseProject"));
+               opt.UseInMemoryDatabase(Configuration.GetConnectionString("SQLConnectionString")));
             services.AddControllers();
         }
 

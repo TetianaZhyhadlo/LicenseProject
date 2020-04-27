@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LicenseProject.Models;
 
+
 namespace LicenseProject.Controllers
 {
-    [Route("api/soft")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SoftsController : ControllerBase
     {
@@ -22,9 +23,9 @@ namespace LicenseProject.Controllers
 
         // GET: api/Softs
         [HttpGet]
-        public async task<actionresult<ienumerable<soft>>> getsofts()
+        public async Task<ActionResult<IEnumerable<Soft>>> GetSofts()
         {
-            return await _context.softs.tolistasync();
+            return await _context.Softs.ToListAsync();
         }
 
         // GET: api/Softs/5
