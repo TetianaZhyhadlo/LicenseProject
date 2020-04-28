@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace LicenseProject.Models
 {
-    public class Customer:IModel
+    public class LicenseType:IModel
     {
         [Key]public int ID { get; set; }
-        public string Name { get; set; }
-        public string Adress { get; set; }
+        public string Type { get; set; }
+        
     }
 }

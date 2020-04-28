@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace LicenseProject.Models
 {
-    public class Customer:IModel
+    public class Discount:IModel
     {
-        [Key]public int ID { get; set; }
-        public string Name { get; set; }
-        public string Adress { get; set; }
+        [Key] public int ID { get; set; }
+        public string DiscountName { get; set; }
+        public double Percantage { get; set; }
     }
 }
