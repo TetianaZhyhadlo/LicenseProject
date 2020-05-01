@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LicenseProject.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200429192235_AllModels")]
-    partial class AllModels
+    [Migration("20200501185731_ALL")]
+    partial class ALL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,7 @@ namespace LicenseProject.Migrations
 
                     b.Property<string>("PeopleQuantity");
 
-                    b.Property<string>("SoftName");
+                    b.Property<int>("SoftID");
 
                     b.HasKey("ID");
 
@@ -88,9 +88,11 @@ namespace LicenseProject.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("SoftName");
+                    b.Property<int>("SoftID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SoftID");
 
                     b.ToTable("Moduls");
                 });
@@ -101,19 +103,27 @@ namespace LicenseProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerName");
+                    b.Property<int>("CustomerID");
 
-                    b.Property<string>("DiscountName");
+                    b.Property<int>("DiscountID");
 
                     b.Property<int>("InvoiceNumber");
 
-                    b.Property<string>("LicenseType");
+                    b.Property<int>("LicenseTypeID");
 
                     b.Property<double>("Price");
 
-                    b.Property<string>("SoftName");
+                    b.Property<int>("SoftID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("DiscountID");
+
+                    b.HasIndex("LicenseTypeID");
+
+                    b.HasIndex("SoftID");
 
                     b.ToTable("Sellings");
                 });
@@ -124,13 +134,56 @@ namespace LicenseProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("DevTeamID");
+
                     b.Property<string>("Direction");
 
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("DevTeamID");
+
                     b.ToTable("Softs");
+                });
+
+            modelBuilder.Entity("LicenseProject.Models.Module", b =>
+                {
+                    b.HasOne("LicenseProject.Models.Soft", "Soft")
+                        .WithMany()
+                        .HasForeignKey("SoftID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LicenseProject.Models.Selling", b =>
+                {
+                    b.HasOne("LicenseProject.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LicenseProject.Models.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LicenseProject.Models.LicenseType", "LicenseType")
+                        .WithMany()
+                        .HasForeignKey("LicenseTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LicenseProject.Models.Soft", "Soft")
+                        .WithMany()
+                        .HasForeignKey("SoftID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LicenseProject.Models.Soft", b =>
+                {
+                    b.HasOne("LicenseProject.Models.DeveloperTeam", "DeveloperTeam")
+                        .WithMany()
+                        .HasForeignKey("DevTeamID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -32,7 +32,12 @@ namespace LicenseProject
                     )
             );
 
-            
+            services.AddTransient<IService<Customer>, CustomerService>();
+            services.AddTransient<IService<DeveloperTeam>, DeveloperTeamService>();
+            services.AddTransient<IService<Discount>, DiscountService>();
+            services.AddTransient<IService<LicenseType>, LicenseTypeService>();
+            services.AddTransient<IService<Module>, ModuleService>();
+            services.AddTransient<IService<Selling>, SellingService>();
             services.AddTransient<IService<Soft>, SoftService>();
 
             services.AddMvc(options => { options.AllowEmptyInputInBodyModelBinding = true; })

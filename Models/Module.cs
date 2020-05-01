@@ -12,6 +12,7 @@ namespace LicenseProject.Models
     {
         [Key] public int ID { get; set; }
         public string Name { get; set; }
-        public string SoftName { get; set; }// должен быть Foreign key на таблицу soft
+        public int SoftID { get; set; }
+        [ForeignKey("SoftID")] public Soft Soft { get; set; }
     }
 }
