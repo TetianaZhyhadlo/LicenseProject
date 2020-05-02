@@ -1,9 +1,10 @@
-﻿using LicenseProject.Models;
+﻿using LicenseProject.DB;
+using LicenseProject.Models;
 using LicenseProject.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace LicenseProject
 {
@@ -11,6 +12,7 @@ namespace LicenseProject
     {
  
         public Repository<Customer> RepositoryDB { get; set; }
+        public AsyncRepository<Customer> AsyncRepositoryDB { get; set; }
 
         public CustomerService(Context dbContext)
         {
@@ -47,7 +49,19 @@ namespace LicenseProject
         {
             return RepositoryDB.GetAll();
         }
+        public async Task<Customer> FindByIdAsync(int id)
+        {
+            return await AsyncRepositoryDB.FindByIdAsync(id);
+        }
+        public async Task CreateAsync(Customer item)
+        {
+            await AsyncRepositoryDB.CreateAsync(item);
+        }
+        public async Task DeleteAsync(Customer item)
+        {
+            await AsyncRepositoryDB.RemoveAsync(item);
+        }
 
-       
+
     }
 }

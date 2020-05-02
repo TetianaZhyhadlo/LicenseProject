@@ -10,55 +10,60 @@ using System.Threading.Tasks;
 
 namespace LicenseProject.Controller
 {
-        [Route("api/developerteam")]
-        [ApiController]
-        public class DeveloperTeamServiceController : ControllerBase
+    [Route("api/developerteam")]
+    [ApiController]
+    public class DeveloperTeamServiceController : ControllerBase
+    {
+        readonly IService<DeveloperTeam> service;
+
+        public DeveloperTeamServiceController(IService<DeveloperTeam> service)
         {
-            readonly IService<DeveloperTeam> service;
+            this.service = service;
+        }
 
-            public DeveloperTeamServiceController(IService<DeveloperTeam> service)
+        [HttpGet]
+        public List<DeveloperTeam> Get()
+        {
+            return service
+                .GetQuery()
+                .ToList();
+        }
+
+        [HttpGet("{id}")]
+        public DeveloperTeam Get(int id)
+        {
+            return service.FindById(id);
+        }
+
+        [HttpPost("save by ID")]
+        public void Post(int id, DeveloperTeam value)
+        {
+            if (value != null)
             {
-                this.service = service;
-            }
+                if (value.ID == id)
+                {
+                    DeveloperTeam updatedItem = service.FindById(id);
+                    updatedItem.Name = value.Name;
+                    updatedItem.PeopleQuantity = value.PeopleQuantity;
+                    service.Update(id, updatedItem);
+                }
 
-            [HttpGet]
-            public List<DeveloperTeam> Get()
-            {
-                return service
-                    .GetQuery()
-                    .Include(x => x.Name)
-                    .Include(x=>x.PeopleQuantity)
-                    .ToList();
-            }
-
-            [HttpGet("{id}")]
-            public DeveloperTeam Get(int id)
-            {
-                return service.FindById(id);
-            }
-
-            [HttpPost("save")]
-            public List<DeveloperTeam> Post([FromBody] DeveloperTeam value)
-            {
-                service.Create(value);
-                return service
-                    .GetAll()
-                    .Where(x=>x.Name!=null)
-                    .ToList();
-            }
-
-            [HttpPut]
-            public void Put(DeveloperTeam value)
-            {
-                service.Create(value);
-
-            }
-
-            [HttpDelete("{id}")]
-            public void Delete(int id)
-            {
-                service.Delete(service.FindById(id));
             }
         }
-    
+
+        [HttpPut]
+        public void Put(DeveloperTeam value)
+        {
+            service.Create(value);
+
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            service.Delete(service.FindById(id));
+        }
+    }
+
+
 }

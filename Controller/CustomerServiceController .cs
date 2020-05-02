@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LicenseProject.Models;
 using LicenseProject.Service;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore.Internal;
+using LicenseProject.DB;
 
 namespace LicenseProject.Controller
 {
@@ -20,7 +23,7 @@ namespace LicenseProject.Controller
         public CustomerServiceController(IService<Customer> service)
         {
             this.service = service;
-        }
+        }       
 
         [HttpGet]
         public List<Customer> Get()
@@ -37,12 +40,28 @@ namespace LicenseProject.Controller
             return service.FindById(id);
         }
 
-        [HttpPost("save")]
-        public List<Customer> Post([FromBody] Customer value)
+        [HttpGet("{name}")]
+        public List<Customer> Get(string name) // поиск по имени
         {
-            return service
-                .GetAll()
+           return service
+                .GetQuery()
+                .Where(x=>x.Name==name)
                 .ToList();
+        }
+
+        [HttpPost("save")]
+        public void Post(int id, Customer value)
+        {
+            if (value != null)
+            {
+                if (value.ID == id)
+                {
+                    Customer updatedItem = service.FindById(id);
+                    updatedItem.Name = value.Name;
+                    updatedItem.Adress = value.Adress;
+                    service.Update(id, updatedItem);
+                }
+            }
         }
 
         [HttpPut]
@@ -56,92 +75,19 @@ namespace LicenseProject.Controller
         {
             service.Delete(service.FindById(id));
         }
+        [HttpDelete("{id/async}")]
+         public async Task DeleteAsync(Customer value)
+        {
+            await DeleteAsync(value);
+        }
+        [HttpPut("{async}")]
+        public async Task CreateAsync(Customer value)
+        {
+            await CreateAsync(value);
+        }
 
-        //public SoftsController(Context context)
-        //{
-        //    _context = context;
-        //}
 
-        //// GET: api/Softs
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Soft>>> GetSofts()
-        //{
-        //    return await _context.Softs.ToListAsync();
-        //}
 
-        //// GET: api/Softs/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Soft>> GetSoft(int id)
-        //{
-        //    var soft = await _context.Softs.FindAsync(id);
 
-        //    if (soft == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return soft;
-        //}
-
-        //// PUT: api/Softs/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutSoft(int id, Soft soft)
-        //{
-        //    if (id != soft.ID)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(soft).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!SoftExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Softs
-        //[HttpPost]
-        //public async Task<ActionResult<Soft>> PostSoft(Soft soft)
-        //{
-        //    _context.Softs.Add(soft);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetSoft", new { id = soft.ID }, soft);
-        //}
-
-        //// DELETE: api/Softs/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Soft>> DeleteSoft(int id)
-        //{
-        //    var soft = await _context.Softs.FindAsync(id);
-        //    if (soft == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Softs.Remove(soft);
-        //    await _context.SaveChangesAsync();
-
-        //    return soft;
-        //}
-
-        //private bool SoftExists(int id)
-        //{
-        //    return _context.Softs.Any(e => e.ID == id);
-        //}
     }
 }

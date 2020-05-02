@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace LicenseProject.Controller
 {
+
         [Route("api/selling")]
         [ApiController]
         public class SellingServiceController : ControllerBase
@@ -29,10 +30,19 @@ namespace LicenseProject.Controller
                     .ToList();
             }
 
+           
             [HttpGet("{id}")]
             public Selling Get(int id)
             {
                 return service.FindById(id);
+            }
+            [HttpGet("{softSellingByID}")]
+            public List<Selling> GetBySoft(int id)
+            {
+                return service
+                    .GetQuery()
+                    .Where(x => x.SoftID == id)
+                    .ToList();
             }
 
             [HttpPost("save")]

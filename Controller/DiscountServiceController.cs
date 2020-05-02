@@ -26,7 +26,6 @@ namespace LicenseProject.Controller
             {
                 return service
                     .GetQuery()
-                    .Include(x=>x.DiscountName)
                     .ToList();
             }
 
