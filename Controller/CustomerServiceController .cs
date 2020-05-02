@@ -75,7 +75,7 @@ namespace LicenseProject.Controller
         {
             service.Delete(service.FindById(id));
         }
-        [HttpDelete("{id/async}")]
+        [HttpDelete("async/{id}")]
          public async Task DeleteAsync(Customer value)
         {
             await DeleteAsync(value);
