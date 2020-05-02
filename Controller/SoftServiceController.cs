@@ -26,7 +26,8 @@ namespace LicenseProject.Controller
         public List<Soft> Get()
         {
             return service
-                .GetAll();
+                .GetQuery()
+                .ToList();
         }
 
         [HttpGet("{id}")]
@@ -43,16 +44,16 @@ namespace LicenseProject.Controller
                 .ToList();
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public void Put(Soft value)
         {
-
+            service.Create(value);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-           
+            service.Delete(service.FindById(id));
         }
 
         //public SoftsController(Context context)
